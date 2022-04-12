@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('../weather-app/node_modules/dotenv/lib/main').config();
 const http = require('http');
 const url = `http://api.weatherstack.com/current?access_key=dcd25e4a3bf2510fb73b2c2aa4f49141&query=California&units=f`;
 
