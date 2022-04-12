@@ -5,6 +5,7 @@ const add = (x, y, callback) => {
     }, 2000);
 };
 
+// sample callback function
 add(1, 4, (sum) => {
     console.log(sum); // Should print: 5
 });
