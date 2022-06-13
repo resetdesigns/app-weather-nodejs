@@ -22,69 +22,90 @@ hbs.registerPartials(partialsPath);
 app.use(express.static(publicDirectoryPath));
 
 app.get('', (req, res) => {
-    res.render('index', {
-        title: 'Weather App',
-        name: 'Joseph Villajin',
-    });
+	res.render('index', {
+		title: 'Weather App',
+		name: 'Joseph Villajin',
+	});
 });
 
 app.get('/about', (req, res) => {
-    res.render('about', {
-        title: 'About',
-        name: 'Joseph Villajin',
-    });
+	res.render('about', {
+		title: 'About',
+		name: 'Joseph Villajin',
+	});
 });
 
 app.get('/help', (req, res) => {
-    res.render('help', {
-        title: 'Help',
-        name: 'Joseph Villajin',
-        helpText: 'This is an example message',
-    });
+	res.render('help', {
+		title: 'Help',
+		name: 'Joseph Villajin',
+		helpText: 'This is an example message',
+	});
 });
 
 app.get('/weather', (req, res) => {
-    if (!req.query.address) {
-        return res.send({
-            error: 'You must provide an address.',
-        });
-    }
+	if (!req.query.address) {
+		return res.send({
+			error: 'You must provide an address.',
+		});
+	}
 
-    geocode(req.query.address, (error, { latitude, longitude, location } = {}) => {
-        if (error) {
-            return res.send({ error });
-        }
+	geocode(req.query.address, (error, { latitude, longitude, location } = {}) => {
+		if (error) {
+			return res.send({ error });
+		}
 
-        forecast(latitude, longitude, (error, forecastData) => {
-            if (error) {
-                return res.send({ error: error });
-            }
+		forecast(latitude, longitude, (error, forecastData) => {
+			if (error) {
+				return res.send({ error: error });
+			}
 
-            res.send({
-                forecast: forecastData,
-                location,
-                address: req.query.address,
-            });
-        });
-    });
+			res.send({
+				forecast: forecastData,
+				location,
+				address: req.query.address,
+			});
+		});
+	});
+});
+
+app.get('/geo-weather', (req, res) => {
+	console.log(req);
+	if (!req.query.lat && !req.query.lon) {
+		return res.send({
+			error: 'You must provide an address.',
+		});
+	}
+
+	forecast(req.query.lat, req.query.lon, (error, forecastData) => {
+		if (error) {
+			return res.send({ error: error });
+		}
+
+		res.send({
+			forecast: forecastData,
+			lat: req.query.lat,
+			lat: req.query.lon,
+		});
+	});
 });
 
 app.get('/help/*', (req, res) => {
-    res.render('404', {
-        title: '404',
-        name: 'Joseph Villajin',
-        errorMessage: 'Help article not found.',
-    });
+	res.render('404', {
+		title: '404',
+		name: 'Joseph Villajin',
+		errorMessage: 'Help article not found.',
+	});
 });
 
 app.get('*', (req, res) => {
-    res.render('404', {
-        title: '404',
-        name: 'Joseph Villajin',
-        errorMessage: 'Page not found.',
-    });
+	res.render('404', {
+		title: '404',
+		name: 'Joseph Villajin',
+		errorMessage: 'Page not found.',
+	});
 });
 
 app.listen(port, () => {
-    console.log('Server is up on port ' + port);
+	console.log('Server is up on port ' + port);
 });
