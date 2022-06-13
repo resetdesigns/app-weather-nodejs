@@ -70,7 +70,6 @@ app.get('/weather', (req, res) => {
 });
 
 app.get('/geo-weather', (req, res) => {
-	console.log(req);
 	if (!req.query.lat && !req.query.lon) {
 		return res.send({
 			error: 'You must provide an address.',
